@@ -3,6 +3,9 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+var mockUsername="billyTheKid";
+var mockPassword="superSecret";
+
 const mockUserData=[
     {name: 'Mark'},
     {name: 'Jill'}
@@ -20,9 +23,6 @@ app.post('/login', function(req,res){
     const username=req.body.username;
     const password=req.body.password;
 
-    const mockUsername="billyTheKid";
-    const mockPassword="superSecret";
-
     if (username==mockUsername && password==mockPassword){
         res.json({
             success: true,
@@ -33,6 +33,25 @@ app.post('/login', function(req,res){
         res.json({
             success: false,
             message: 'password and username do not match'
+        })
+    }
+})
+
+app.post('/alter-login', function(req,res){
+    const updateUsername=req.body.username;
+    const updatePassword=req.body.password;
+
+    if (updateUsername!==null && updatePassword!==null){
+        mockUsername=updateUsername;
+        mockPassword=updatePassword;
+        res.json({
+            success: true,
+            message: 'username and password updated!'
+        })
+    } else {
+        res.json({
+            success: false,
+            message: 'username or password cannot be blank'
         })
     }
 })
